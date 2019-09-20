@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"net/url"
@@ -289,6 +290,12 @@ func (c *httpClient) writeBatch(ctx context.Context, db string, metrics []telegr
 	req, err := c.makeWriteRequest(url, reader)
 	if err != nil {
 		return err
+	}
+
+	req.GetBody = func() (io.ReadCloser, error) {
+		body := influx.NewReader(metrics, c.config.Serializer)
+		rc := ioutil.NopCloser(body)
+		return rc, nil
 	}
 
 	resp, err := c.client.Do(req.WithContext(ctx))
