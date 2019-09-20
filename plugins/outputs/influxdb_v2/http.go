@@ -220,6 +220,12 @@ func (c *httpClient) writeBatch(ctx context.Context, bucket string, metrics []te
 
 	req.GetBody = func() (io.ReadCloser, error) {
 		body := influx.NewReader(metrics, c.serializer)
+		if c.ContentEncoding == "gzip" {
+			body, err = internal.CompressWithGzip(body)
+			if err != nil {
+				return nil, err
+			}
+		}
 		rc := ioutil.NopCloser(body)
 		return rc, nil
 	}
