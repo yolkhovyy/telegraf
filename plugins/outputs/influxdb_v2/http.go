@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -215,6 +216,12 @@ func (c *httpClient) writeBatch(ctx context.Context, bucket string, metrics []te
 	req, err := c.makeWriteRequest(url, reader)
 	if err != nil {
 		return err
+	}
+
+	req.GetBody = func() (io.ReadCloser, error) {
+		body := influx.NewReader(metrics, c.serializer)
+		rc := ioutil.NopCloser(body)
+		return rc, nil
 	}
 
 	resp, err := c.client.Do(req.WithContext(ctx))
