@@ -1,4 +1,4 @@
-package TagInjector
+package taginjector
 
 import (
 	"log"

@@ -375,6 +375,7 @@ For documentation on the latest development code see the [documentation index][d
 * [rename](/plugins/processors/rename)
 * [s2geo](/plugins/processors/s2geo)
 * [strings](/plugins/processors/strings)
+* [tag_injector](/plugins/processors/tag_injector)
 * [tag_limit](/plugins/processors/tag_limit)
 * [template](/plugins/processors/template)
 * [topk](/plugins/processors/topk)
