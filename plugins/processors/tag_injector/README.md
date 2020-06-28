@@ -22,3 +22,8 @@ levels of cardinality are computationally and/or financially expensive.
 + throughput month=Jun,environment=qa,region=us-east1,lower=10i,upper=1000i,mean=500i 1560540094000000000
 + throughput environment=qa,region=us-east1,lower=10i 1560540094000000000
 ```
+
+
+```
+docker volume create --name maria-db -o type=none -o device=/home/yo/tmp/tag_injector/db -o o=bind
+```
