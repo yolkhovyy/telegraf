@@ -58,10 +58,8 @@ func (d *TagInjector) Apply(in ...telegraf.Metric) []telegraf.Metric {
 	defer db.Close()
 
 	for _, point := range in {
-		log.Printf("D! [processors.tag_injector] point tags in: %+v", point.Tags())
 		for inTagName, inTagValue := range point.Tags() {
 			rows, err := db.Query("select out_tags.tag_name, out_tags.tag_value from in_tags left join out_tags on in_tags.id = out_tags.in_tag_id where in_tags.tag_name=? and in_tags.tag_value=?", inTagName, inTagValue)
-			log.Printf("D! [processors.tag_injector] rows: %+v", rows)
 			if err != nil {
 				log.Printf("E! [processors.tag_injector] database query failed: %v", err)
 			} else {
@@ -71,12 +69,10 @@ func (d *TagInjector) Apply(in ...telegraf.Metric) []telegraf.Metric {
 				)
 				for rows.Next() {
 					rows.Scan(&outTagName, &outTagValue)
-					log.Printf("D! [processors.tag_injector] adding: %s %s", outTagName, outTagValue)
 					point.AddTag(outTagName, outTagValue)
 				}
 			}
 		}
-		log.Printf("D! [processors.tag_injector] point tags out: %+v", point.Tags())
 	}
 
 	return in
