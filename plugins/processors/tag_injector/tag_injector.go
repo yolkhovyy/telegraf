@@ -11,8 +11,10 @@ import (
 )
 
 const sampleConfig = `
-  ## List of tags to inject
-  inject = ["foo", "bar", "baz"]
+[[processors.tag_injector]]
+  order = 2
+  driver_name = "mysql"
+  data_source_name = "user:password@/tag_injector?charset=utf8mb4&collation=utf8mb4_unicode_ci"
 `
 
 // TagInjector is ...
